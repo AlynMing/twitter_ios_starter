@@ -54,7 +54,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="tweetCell" rowHeight="181" id="Q0I-92-kmh">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="tweetCell" rowHeight="181" id="Q0I-92-kmh" customClass="TweetCellTableViewCell" customModule="Twitter" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="181"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Q0I-92-kmh" id="Qtv-63-JIh">
@@ -94,6 +94,11 @@
                                         <constraint firstItem="TeL-Ox-yUu" firstAttribute="top" secondItem="3h2-6q-cky" secondAttribute="bottom" constant="4" id="ld1-iR-8W9"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="profileImageView" destination="IVb-UB-bHm" id="Fa0-bd-jag"/>
+                                    <outlet property="tweetContent" destination="TeL-Ox-yUu" id="cPV-mR-LxZ"/>
+                                    <outlet property="userNameLabel" destination="3h2-6q-cky" id="pFh-an-k70"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

@@ -10,6 +10,9 @@ import UIKit
 
 class HomeTableViewController: UITableViewController {
 
+    var tweetArray = [NSDictionary]()
+    var numberOfTweet: Int!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,6 +22,27 @@ class HomeTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    func loadTweets(){
+        
+        let myUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+        let myParams = ["count": 10]
+        
+        TwitterAPICaller.client?.getDictionariesRequest(url: myUrl, parameters: myParams, success: { (tweets: [NSDictionary]) in
+            for tweet in tweets{
+                self.tweetArray.removeAll()
+                self.tweetArray.append(tweet)
+            }
+        }, failure: { (<#Error#>) in
+            print("Could not retrieve tweets! oh! no!")
+        })
+    }
+    
+    
+    
+    
+    
+    
 
     @IBAction func onLogOut(_ sender: Any) {
         //calling the API and saying log out
@@ -29,7 +53,13 @@ class HomeTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tweetCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tweetCell", for: indexPath) as! TweetCellTableViewCell
+        
+        cell.userNameLabel.text = "some name"
+        cell.tweetContent.text = tweetArray[indexPath.row]["text"] as! String
+        
+        
+        
         return cell
     }
     
@@ -53,7 +83,7 @@ class HomeTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 5
+        return tweetArray.count
     }
 
     /*

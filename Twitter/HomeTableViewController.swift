@@ -32,8 +32,9 @@ class HomeTableViewController: UITableViewController {
     
     @objc func loadTweets(){
         
+        numberOfTweet = 20
         let myUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json"
-        let myParams = ["count": 10]
+        let myParams = ["count": numberOfTweet]
         
         TwitterAPICaller.client?.getDictionariesRequest(url: myUrl, parameters: myParams, success: { (tweets: [NSDictionary]) in
             for tweet in tweets{
@@ -49,7 +50,34 @@ class HomeTableViewController: UITableViewController {
         })
     }
     
-
+    
+    func loadMoreTweets(){
+        
+        let myUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json"
+        numberOfTweet = numberOfTweet + 20
+        let myParams = ["count": numberOfTweet]
+        TwitterAPICaller.client?.getDictionariesRequest(url: myUrl, parameters: myParams, success: { (tweets: [NSDictionary]) in
+                   for tweet in tweets{
+                       self.tweetArray.removeAll()
+                       self.tweetArray.append(tweet)
+                   }
+                   self.tableView.reloadData()
+                   self.myRefreshControl.endRefreshing()
+                   
+               }, failure: { (Error) in
+                   print("Could not retrieve tweets! oh! no!")
+               })
+    }
+    
+    
+    //something to happen when user gets to end of page
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath){
+        if indexPath.row + 1 == tweetArray.count {
+            loadMoreTweets()
+        }
+    }
+    
+    
     @IBAction func onLogOut(_ sender: Any) {
         //calling the API and saying log out
         TwitterAPICaller.client?.logout()
